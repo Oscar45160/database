@@ -1,0 +1,36 @@
+CREATE TABLE DWH.dbo.LIEU(
+	id_lieu VARCHAR(11) PRIMARY KEY NOT NULL,
+	id_local VARCHAR(30),
+	nom_lieu VARCHAR(100) NOT NULL,
+	ad_lieu VARCHAR(100),
+	nbre_pl INT,
+	nbre_pmr INT,
+	lumiere BIT,
+	horaire VARCHAR(20),
+	duree INT,
+	Xlong FLOAT,
+	Ylat FLOAT,
+	proprio VARCHAR(100),
+	comm VARCHAR(100)
+);
+
+CREATE TABLE DWH.dbo.TYPE(
+	type_place VARCHAR(50) PRIMARY KEY NOT NULL,
+	id_lieu VARCHAR(11) FOREIGN KEY REFERENCES DWH.dbo.LIEU(id_lieu)
+);
+
+CREATE TABLE DWH.dbo.VILLE(
+	insee CHAR(5) PRIMARY KEY NOT NULL,
+	com_lieu VARCHAR(30) NOT NULL,
+	id_lieu VARCHAR(11) FOREIGN KEY REFERENCES DWH.dbo.LIEU(id_lieu)
+);
+
+CREATE TABLE DWH.dbo.DATE(
+	date_maj DATE PRIMARY KEY NOT NULL,
+	id_lieu VARCHAR(11) FOREIGN KEY REFERENCES DWH.dbo.LIEU(id_lieu)
+);
+
+CREATE TABLE DWH.dbo.SOURCE(
+	source INT PRIMARY KEY NOT NULL,
+	id_lieu VARCHAR(11) FOREIGN KEY REFERENCES DWH.dbo.LIEU(id_lieu)
+);

@@ -1,8 +1,9 @@
 -- ODS and DWH database creation --
+/*
 CREATE DATABASE ODS;
 CREATE DATABASE DWH;
 
--- ODS database object BNLC creation to collect data --
+-- ODS database object BNLC creation to collect data
 CREATE TABLE ODS.dbo.BNLC (
 	id_lieu VARCHAR(MAX),
 	id_local VARCHAR(MAX),
@@ -28,11 +29,17 @@ CREATE TABLE ODS.dbo.BNLC (
 -- Empty the table -- 
 TRUNCATE TABLE ODS.dbo.BNLC
 
-
--- To insert data from file in the table -- 
 BULK INSERT ODS.dbo.BNLC
 FROM 'C:\Users\omicr\Documents\database\database\BNLC.csv'
 WITH (
 	FORMAT = 'csv',
-    FIRSTROW = 2
+    FIRSTROW = 2,
+	KEEPNULLS,
+    FIELDTERMINATOR = ';', 
+    FIELDQUOTE='"',
+    ROWTERMINATOR='\n'
 );
+
+*/
+
+SELECT * FROM ODS.dbo.BNLC
