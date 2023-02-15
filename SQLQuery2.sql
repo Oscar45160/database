@@ -19,3 +19,12 @@ CREATE TABLE ODS.dbo.BNLC (
 	lumiere VARCHAR(MAX),
 	comm VARCHAR(MAX)
 );
+
+TRUNCATE TABLE ODS.dbo.BNLC
+
+BULK INSERT ODS.dbo.BNLC
+FROM 'C:\Users\omicr\Documents\database\database\BNLC.csv'
+WITH (
+	FORMAT = 'csv',
+    FIRSTROW = 2
+);
