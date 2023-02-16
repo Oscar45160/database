@@ -1,7 +1,7 @@
 -- ODS and DWH database creation --
-/*
-CREATE DATABASE ODS;
-CREATE DATABASE DWH;
+
+-- CREATE DATABASE ODS;
+-- CREATE DATABASE DWH;
 
 -- ODS database object BNLC creation to collect data
 CREATE TABLE ODS.dbo.BNLC (
@@ -40,6 +40,23 @@ WITH (
     ROWTERMINATOR='\n'
 );
 
+
+
+
+/*
+DELETE FROM DWH.dbo.VILLE
+DBCC CHECKIDENT (DWH.dbo.VILLE, RESEED, 0)
+
+--TRUNCATE TABLE DWH.dbo.VILLE;
+INSERT INTO DWH.dbo.VILLE
+SELECT DISTINCT insee,
+CASE
+	WHEN insee = '03185'
+	THEN 'MONTLUCON'
+	ELSE com_lieu
+END
+FROM ODS.dbo.BNLC
 */
 
-SELECT count(*) FROM ODS.dbo.BNLC
+
+

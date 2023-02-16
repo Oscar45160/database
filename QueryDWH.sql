@@ -24,7 +24,7 @@ CREATE TABLE DWH.dbo.DATE(
 );
 
 CREATE TABLE DWH.dbo.SOURCE(
-	source INT,
+	source FLOAT,
 	CONSTRAINT pk_source PRIMARY KEY NONCLUSTERED (source),
 );
 
@@ -34,19 +34,19 @@ CREATE TABLE DWH.dbo.LIEU(
 	id_local VARCHAR(30),
 	nom_lieu VARCHAR(100) NOT NULL,
 	ad_lieu VARCHAR(1000),
-	nbre_pl INT,
-	nbre_pmr INT,
+	nbre_pl FLOAT,
+	nbre_pmr FLOAT,
 	lumiere BIT,
 	horaire VARCHAR(20),
-	duree INT,
+	duree FLOAT,
 	Xlong FLOAT,
 	Ylat FLOAT,
 	proprio VARCHAR(100),
 	comm VARCHAR(1000),
-	fk_type_place VARCHAR(50),
-	fk_insee VARCHAR(50),
-	fk_date_maj DATE,
-	fk_source INT,
+	fk_type_place VARCHAR(50) NOT NULL,
+	fk_insee VARCHAR(50) NOT NULL,
+	fk_date_maj DATE NOT NULL,
+	fk_source FLOAT NOT NULL,
 	CONSTRAINT type_place_fk FOREIGN KEY (fk_type_place)
 		REFERENCES DWH.dbo.TYPE_PLACE (type_place),
 	CONSTRAINT insee_fk FOREIGN KEY (fk_insee)
@@ -62,14 +62,38 @@ CREATE TABLE DWH.dbo.LIEU(
 INSERT INTO DWH.dbo.TYPE_PLACE
 SELECT DISTINCT (type_place) FROM ODS.dbo.BNLC
 
+
+
+
 INSERT INTO DWH.dbo.VILLE
 SELECT DISTINCT insee, com_lieu FROM ODS.dbo.BNLC
+
+
 
 INSERT INTO DWH.dbo.DATE
 SELECT DISTINCT (date_maj) FROM ODS.dbo.BNLC
 
+
+
 INSERT INTO DWH.dbo.SOURCE
-SELECT DISTINCT (source) FROM ODS.dbo.BNLC
+SELECT DISTINCT 
+CASE
+WHEN source IS NULL THEN -1
+ELSE CAST(source as FLOAT)
+END
+as source
+FROM ODS.dbo.BNLC
+
+
+
 
 INSERT INTO DWH.dbo.LIEU
-SELECT DISTINCT id_lieu, id_local, nom_lieu, ad_lieu, nbre_pl, nbre_pmr, lumiere, horaire, duree, Xlong, Ylat, proprio, comm, type_place, insee, date_maj, source FROM ODS.dbo.BNLC
+SELECT id_lieu, id_local, nom_lieu, ad_lieu, CAST(nbre_pl as FLOAT), CAST(nbre_pmr as FLOAT), CAST(lumiere as BIT), horaire, CAST(duree as FLOAT), CAST(Xlong as FLOAT), CAST(Ylat as FLOAT), proprio, comm, type_place, insee, CAST(date_maj as DATE), 
+
+CASE
+	WHEN source IS NULL THEN -1
+	ELSE CAST(source as FLOAT)
+END
+FROM ODS.dbo.BNLC
+
+ 
