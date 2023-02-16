@@ -42,4 +42,4 @@ WITH (
 
 */
 
-SELECT * FROM ODS.dbo.BNLC
+SELECT count(*) FROM ODS.dbo.BNLC
